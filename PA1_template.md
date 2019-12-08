@@ -7,7 +7,8 @@ output:
 
 
 ## Loading and preprocessing the data
-```{r}
+
+```r
 inputFile <- paste0(getwd(),"/activity/activity.csv")  
 inputData <- read.csv(inputFile, stringsAsFactors = FALSE)
 inputData$date <- as.Date(inputData$date)
@@ -16,44 +17,71 @@ inputData$steps <- as.numeric(inputData$steps)
 ```
 
 ## What is mean total number of steps taken per day?
-```{r  message = FALSE}
+
+```r
 library(dplyr)
 byDate <- group_by(inputData,date)
 byDate <- summarise(byDate, meanSteps = mean(steps, na.rm = TRUE))
 hist(byDate$meanSteps, main = "Average Steps Per Day", xlab = "")  
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+
 Mean steps per day is equal to:
-```{r}
+
+```r
 mean(byDate$meanSteps,na.rm = TRUE)
 ```
+
+```
+## [1] 37.3826
+```
 Median steps per day is equal to 
-```{r}
+
+```r
 median(byDate$meanSteps,na.rm = TRUE)
 ```
 
+```
+## [1] 37.37847
+```
+
 ## What is the average daily activity pattern?
-```{r}
+
+```r
 byInterval <- group_by(inputData,interval)
 byInterval <- summarise(byInterval, meanSteps = mean(steps, na.rm = TRUE))
 plot(byInterval$interval,byInterval$meanSteps, type = "l", 
      main = "Daily Activity Pattern", xlab = "Interval (minute)", ylab = "Avg steps")
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+
 The 5-minute interval which on average across all the day in the dataset contains the maximum number of steps is:
-```{r}
+
+```r
 as.integer(byInterval[byInterval$meanSteps == max(byInterval$meanSteps),1])
+```
+
+```
+## [1] 835
 ```
 
 ## Imputing missing values
 The total amount of values missing in the data set is equal to:
-```{r}
+
+```r
 length(which(is.na(inputData$steps)))
+```
+
+```
+## [1] 2304
 ```
 
 Replacing NA values with the mean values for the given interval
 
-```{r}
+
+```r
 inputDataNA <- inputData
 assignNAValue <- function(x){
   return(byInterval[(byInterval$interval == x),2])
@@ -70,17 +98,30 @@ byDate <- summarise(byDate, meanSteps = mean(steps, na.rm = TRUE))
 hist(byDate$meanSteps, main = "Average Steps Per Day", xlab = "")
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+
 Mean steps per day is equal to:
-```{r}
+
+```r
 mean(byDate$meanSteps,na.rm = TRUE)
 ```
+
+```
+## [1] 37.3826
+```
 Median steps per day is equal to 
-```{r}
+
+```r
 median(byDate$meanSteps,na.rm = TRUE)
 ```
 
+```
+## [1] 37.3826
+```
+
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r}
+
+```r
 weekEnd <- c("Saturday","Sunday")
 weekEndDays <- inputData[(weekdays(inputData$date) %in% weekEnd),]
 weekDays <- inputData[!(weekdays(inputData$date) %in% weekEnd),]
@@ -96,8 +137,9 @@ plot(byIntervalWE$interval,byIntervalWE$meanSteps, type = "l",
      main = "Weekend Activity Pattern", xlab = "Interval", ylab = "Avg steps")
 plot(byIntervalWD$interval,byIntervalWD$meanSteps, type = "l", 
      main = "Weekday Activity Pattern", xlab = "Interval", ylab = "Avg steps")
-
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 
 
