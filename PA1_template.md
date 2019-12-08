@@ -20,7 +20,7 @@ inputData$steps <- as.numeric(inputData$steps)
 
 ```r
 library(dplyr)
-byDate <- group_by(inputData,date)
+byDate <- group_by(inputData,date) #group by date
 byDate <- summarise(byDate, meanSteps = mean(steps, na.rm = TRUE))
 hist(byDate$meanSteps, main = "Average Steps Per Day", xlab = "")  
 ```
@@ -30,7 +30,7 @@ hist(byDate$meanSteps, main = "Average Steps Per Day", xlab = "")
 Mean steps per day is equal to:
 
 ```r
-mean(byDate$meanSteps,na.rm = TRUE)
+mean(byDate$meanSteps,na.rm = TRUE) #mean calculation
 ```
 
 ```
@@ -39,7 +39,7 @@ mean(byDate$meanSteps,na.rm = TRUE)
 Median steps per day is equal to 
 
 ```r
-median(byDate$meanSteps,na.rm = TRUE)
+median(byDate$meanSteps,na.rm = TRUE) #median calculation
 ```
 
 ```
@@ -122,8 +122,8 @@ median(byDate$meanSteps,na.rm = TRUE)
 ## Are there differences in activity patterns between weekdays and weekends?
 
 ```r
-weekEnd <- c("Saturday","Sunday")
-weekEndDays <- inputData[(weekdays(inputData$date) %in% weekEnd),]
+weekEnd <- c("Saturday","Sunday") #weekend days
+weekEndDays <- inputData[(weekdays(inputData$date) %in% weekEnd),] #split data
 weekDays <- inputData[!(weekdays(inputData$date) %in% weekEnd),]
 
 byIntervalWE <- group_by(weekEndDays,interval)
@@ -131,8 +131,9 @@ byIntervalWE <- summarise(byIntervalWE, meanSteps = mean(steps, na.rm = TRUE))
 byIntervalWD <- group_by(weekDays,interval)
 byIntervalWD <- summarise(byIntervalWD, meanSteps = mean(steps, na.rm = TRUE))
 
-par(mfrow = c(2,1), cex = 0.5)
+par(mfrow = c(2,1), cex = 0.5) #set parmeters for plotting
 
+#plot the weekend and weekday data
 plot(byIntervalWE$interval,byIntervalWE$meanSteps, type = "l", 
      main = "Weekend Activity Pattern", xlab = "Interval", ylab = "Avg steps")
 plot(byIntervalWD$interval,byIntervalWD$meanSteps, type = "l", 
