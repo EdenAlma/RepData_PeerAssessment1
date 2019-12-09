@@ -19,7 +19,7 @@ inputData$steps <- as.numeric(inputData$steps)
 ```{r  message = FALSE}
 library(dplyr)
 byDate <- group_by(inputData,date) #group by date
-byDate <- summarise(byDate, meanSteps = mean(steps, na.rm = TRUE))
+byDate <- summarise(byDate, meanSteps = sum(steps, na.rm = TRUE))
 hist(byDate$meanSteps, main = "Average Steps Per Day", xlab = "")  
 ```
 

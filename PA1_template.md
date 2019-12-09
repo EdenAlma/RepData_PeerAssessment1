@@ -21,7 +21,7 @@ inputData$steps <- as.numeric(inputData$steps)
 ```r
 library(dplyr)
 byDate <- group_by(inputData,date) #group by date
-byDate <- summarise(byDate, meanSteps = mean(steps, na.rm = TRUE))
+byDate <- summarise(byDate, meanSteps = sum(steps, na.rm = TRUE))
 hist(byDate$meanSteps, main = "Average Steps Per Day", xlab = "")  
 ```
 
@@ -34,7 +34,7 @@ mean(byDate$meanSteps,na.rm = TRUE) #mean calculation
 ```
 
 ```
-## [1] 37.3826
+## [1] 9354.23
 ```
 Median steps per day is equal to 
 
@@ -43,7 +43,7 @@ median(byDate$meanSteps,na.rm = TRUE) #median calculation
 ```
 
 ```
-## [1] 37.37847
+## [1] 10395
 ```
 
 ## What is the average daily activity pattern?
