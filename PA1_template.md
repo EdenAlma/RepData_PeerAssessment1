@@ -94,7 +94,7 @@ missing <- is.na(inputDataNA$steps)
 inputDataNA[missing,1] <- x[missing]
 inputData <- inputDataNA
 byDate <- group_by(inputDataNA,date)
-byDate <- summarise(byDate, meanSteps = mean(steps, na.rm = TRUE))
+byDate <- summarise(byDate, meanSteps = sum(steps, na.rm = TRUE))
 hist(byDate$meanSteps, main = "Average Steps Per Day", xlab = "")
 ```
 
@@ -107,7 +107,7 @@ mean(byDate$meanSteps,na.rm = TRUE)
 ```
 
 ```
-## [1] 37.3826
+## [1] 10766.19
 ```
 Median steps per day is equal to 
 
@@ -116,7 +116,7 @@ median(byDate$meanSteps,na.rm = TRUE)
 ```
 
 ```
-## [1] 37.3826
+## [1] 10766.19
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?
